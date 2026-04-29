@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import LoginPage from '../../pages/login'
-import MainPage from "../../pages/main";
 import { ProtectedRoute } from "./ProtectedRoute";
-import SettingsPage from "../../pages/settings";
+const MainPage = React.lazy(()=>import('../../pages/main'))
+const SettingsPage = React.lazy(()=>import('../../pages/settings'))
+
 
 
 const AppRouter = () => {
