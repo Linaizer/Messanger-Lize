@@ -26,7 +26,11 @@ const MainPage = () => {
             }} onSelectUser={(id, name) => {
                 handleSearchUser(id, name)
             }} /></div>
-            {selectedChatId ? <ChatWindow chatId={selectedChatId} onClose={() => setSelectedChatId(null)} chatName={selectedChatName ?? ''} /> : <div className="h-full flex flex-col justify-center items-center gap-3 bg-gray-900 text-gray-500">
+            {selectedChatId ? <ChatWindow chatId={selectedChatId}
+                onClose={() => setSelectedChatId(null)}
+                chatName={selectedChatName ?? ''} /> : <div
+                    className="h-full flex flex-col justify-center items-center gap-3 bg-gray-100 
+            dark:bg-gray-900 text-gray-400 dark:text-gray-500">
                 <MessageCircle size={48} strokeWidth={1} />
                 <p className="text-lg">Select a chat to start messaging</p>
             </div>}

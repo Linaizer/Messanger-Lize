@@ -39,12 +39,12 @@ const ChatList = ({ onSelect, onSelectUser }: ChatListProps) => {
     }
 
     return (
-        <div className="h-full bg-gray-800 p-4">
+        <div className="h-full bg-gray-200 dark:bg-gray-800 p-4">
             <input
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent text-white placeholder-gray-400 outline-none w-full"
+                className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none w-full"
             />
             {searchQuery ? searchResults.map((user) => (
                 <div key={user.id}
@@ -53,12 +53,12 @@ const ChatList = ({ onSelect, onSelectUser }: ChatListProps) => {
                         loadChats();
                         setSearchQuery('')
                     }}
-                    className="p-3 rounded-lg cursor-pointer hover:bg-gray-700 text-white"
+                  className="p-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white"
                 >{user.name}</div>
             )) : chats.map((chat) => (
                 <div key={chat.id}
                     onClick={() => onSelect(chat.id, chat.name)}
-                    className="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700 text-white"
+                    className="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white"
                     onMouseEnter={() => setHoveredChatId(chat.id)}
                     onMouseLeave={() => setHoveredChatId(null)}
                 > {chat.name} {hoveredChatId === chat.id && <button
