@@ -11,8 +11,10 @@ import wsRoutes from './routes/wsRoute.js'
 import { userRoutes } from './routes/userRoute.js'
 
 const app = Fastify()
-
-app.register(cors)
+app.register(cors, {
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+})
 app.register(fp(jwt), { secret: process.env.JWT_SECRET! })
 app.register(chatRoutes, { prefix: '/api/chats' })
 app.register(authRoute, { prefix: '/api/auth' })
@@ -20,6 +22,7 @@ app.register(messageRoute, { prefix: '/api/chats/:chatId/messages' })
 app.register(WebSocket )
 app.register(wsRoutes, {prefix:'/chat/ws'})
 app.register(userRoutes,{prefix:'/api/users'})
+
 
 app.listen({ port: 3000 }, () => {
   console.log('Server running on port 3000')

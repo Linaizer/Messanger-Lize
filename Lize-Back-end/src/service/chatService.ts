@@ -15,13 +15,13 @@ export const createChatService = async (name: string, userId: number, targetUser
 
     const existingChat = await prisma.chat.findFirst({
         where: {
-            AND:[
-                {UserChat:{some:{userId}}},
-                {UserChat:{some:{userId:targetUserId}}}
+            AND: [
+                { UserChat: { some: { userId } } },
+                { UserChat: { some: { userId: targetUserId } } }
             ]
         }
     })
-    if(existingChat) return existingChat
+    if (existingChat) return existingChat
 
     try {
         return await prisma.$transaction(async (tx) => {
@@ -34,4 +34,14 @@ export const createChatService = async (name: string, userId: number, targetUser
         console.error('Transaction error:', error)
         throw error
     }
+}
+
+export const deleteChatService = async (chatId: number) => {
+   return await prisma.$transaction(async (tx) => {
+        await tx.message.deleteMany({ where: { chatId } })
+        await tx.userChat.deleteMany({ where: { chatId } })
+        await tx.chat.delete({ where: { id: chatId } })
+    })
+
+
 }
