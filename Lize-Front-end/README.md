@@ -1,73 +1,133 @@
-# React + TypeScript + Vite
+# Lize 💬
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fullstack real-time messenger pet project built to practice modern fullstack development — from REST API and WebSockets on the backend to Feature-Sliced Design on the frontend.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+### Backend
+- **Node.js + Fastify** — fast and lightweight HTTP server
+- **TypeScript** — static typing
+- **PostgreSQL** — relational database
+- **Prisma** — ORM for database access
+- **JWT** — authentication via Bearer tokens
+- **WebSockets** (`@fastify/websocket`) — real-time messaging
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
+- **React + TypeScript** — UI library
+- **Vite** — fast dev server and bundler
+- **Tailwind CSS v4** — utility-first styling
+- **React Router** — client-side routing
+- **Axios** — HTTP client
+- **Lucide React** — icons
 
-## Expanding the ESLint configuration
+### Tools
+- **Postman** — API testing
+- **Prisma Studio** — database GUI
+- **dotenv** — environment variables
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Architecture
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Backend
+Follows a layered architecture:
+```
+Route → Controller → Service → Prisma
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Frontend
+Follows **Feature-Sliced Design (FSD)**:
 ```
+src/
+  app/        — providers, router, styles
+  pages/      — login, main, settings
+  widgets/    — chat-list, chat-window, slidebar
+  features/   — auth-by-login, auth-by-registration, search-user
+  entities/   — chat, message, user
+  shared/     — api, config, lib, ui
+```
+
+---
+
+## Features
+
+- Register and log in with JWT authentication
+- Protected routes — redirects to login if not authenticated
+- Create private chats by searching users
+- Real-time messaging via WebSockets
+- Messages saved to PostgreSQL
+- Delete chats with full database cleanup
+- User profile display in settings
+- Dark / Light theme toggle
+- Lazy loading for all pages
+- Responsive design — desktop grid + mobile bottom bar
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL
+
+### Backend
+
+```bash
+cd Lize-Back-end
+npm install
+
+# Set up environment variables
+cp .env.example .env
+
+# Run database migrations
+npx prisma migrate dev
+
+# Start dev server
+npm run dev
+```
+
+### Frontend
+
+```bash
+cd Lize-Front-end
+npm install
+npm run dev
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the backend root:
+
+```
+DATABASE_URL=postgresql://user:password@localhost:5432/lize
+JWT_SECRET=your_secret_key
+```
+
+`.env` is listed in `.gitignore` — do not commit it.
+
+---
+
+## API Overview
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login, returns JWT |
+| GET | `/api/users/me` | Get current user profile |
+| GET | `/api/users?search=` | Search users by name |
+| GET | `/api/chats` | Get all user chats |
+| POST | `/api/chats` | Create a new chat |
+| DELETE | `/api/chats/:id` | Delete a chat |
+| GET | `/api/chats/:chatId/messages` | Get chat messages |
+| WS | `/chat/ws/chat/:chatId?token=` | WebSocket connection |
+
+---
+
+## Contact
+
+- 📧 [ponomar.kolya10@gmail.com](mailto:ponomar.kolya10@gmail.com)
+- 💼 [LinkedIn](https://www.linkedin.com/in/mykola-ponomar-81717a32b/)
