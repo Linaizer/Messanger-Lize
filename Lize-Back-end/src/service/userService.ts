@@ -6,14 +6,26 @@ export const searchUsers = async (id: number, name: string) => {
         where: {
             name: {
                 contains: name,
-                mode:'insensitive'
+                mode: 'insensitive'
             },
             id: { not: id }
         },
-        select:{
-            id:true,
-            name:true
+        select: {
+            id: true,
+            name: true
         }
     })
+}
 
+export const getUserMeService = async (userId: number) => {
+    return await prisma.user.findUnique({
+        where: {
+            id: userId,
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true
+        }
+    })
 }
