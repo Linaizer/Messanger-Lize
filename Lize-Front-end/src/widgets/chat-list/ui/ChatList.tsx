@@ -3,7 +3,6 @@ import { chatApi, type Chat } from '../../../entities/chat'
 import axiosInstance from "../../../shared/api/axios"
 import { Trash2 } from "lucide-react"
 
-
 interface ChatListProps {
     onSelect: (id: number, name: string) => void
     onSelectUser: (id: number, name: string) => void
@@ -35,17 +34,18 @@ const ChatList = ({ onSelect, onSelectUser }: ChatListProps) => {
         const response = await axiosInstance.delete(`/api/chats/${id}`)
         loadChats()
         return response.data
-
     }
 
     return (
-        <div className="h-full bg-gray-200 dark:bg-gray-800 p-4">
-            <input
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none w-full"
-            />
+        <div className="h-full bg-gray-200 dark:bg-gray-800 p-4 pb-16 md:pb-4">
+            <div className="bg-gray-300 dark:bg-gray-700 rounded-lg mb-4 px-4 py-2 flex items-center">
+                <input
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none w-full"
+                />
+            </div>
             {searchQuery ? searchResults.map((user) => (
                 <div key={user.id}
                     onClick={async () => {
@@ -53,7 +53,7 @@ const ChatList = ({ onSelect, onSelectUser }: ChatListProps) => {
                         loadChats();
                         setSearchQuery('')
                     }}
-                  className="p-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white"
+                    className="p-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white"
                 >{user.name}</div>
             )) : chats.map((chat) => (
                 <div key={chat.id}
@@ -61,15 +61,19 @@ const ChatList = ({ onSelect, onSelectUser }: ChatListProps) => {
                     className="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white"
                     onMouseEnter={() => setHoveredChatId(chat.id)}
                     onMouseLeave={() => setHoveredChatId(null)}
-                > {chat.name} {hoveredChatId === chat.id && <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteChat(chat.id)
-                    }}
-                    className="ml-auto text-gray-400 hover:text-red-400 transition-colors"
-                ><Trash2 size={16} /></button>}</div >
+                >
+                    {chat.name}
+                    {hoveredChatId === chat.id && (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); handleDeleteChat(chat.id) }}
+                            className="ml-auto text-gray-400 hover:text-red-400 transition-colors"
+                        >
+                            <Trash2 size={16} />
+                        </button>
+                    )}
+                </div>
             ))}
-        </div >
+        </div>
     )
 }
 

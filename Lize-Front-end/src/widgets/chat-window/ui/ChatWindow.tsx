@@ -28,7 +28,7 @@ const ChatWindow = ({ chatId, onClose, chatName }: ChatWindowProps) => {
 
 
     return (
-        <div className="h-full bg-gray-100 dark:bg-slate-600 flex flex-col p-4">
+        <div className="h-full bg-gray-100 dark:bg-slate-600 flex flex-col p-4  pb-16 md:pb-0">
             <div className="font-semibold text-lg mb-4 pb-2 border-b border-gray-300 dark:border-gray-500 flex justify-between text-gray-900 dark:text-white">
                 <span> {chatName} </span>
                 <button onClick={onClose} className="pr-4">X</button>

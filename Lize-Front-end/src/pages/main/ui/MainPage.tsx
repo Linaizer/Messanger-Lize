@@ -16,24 +16,30 @@ const MainPage = () => {
         setSelectedChatId(response.data.id)
         setSelectedChatName(name)
     }
-    return (
-        <div className="grid grid-cols-[80px_320px_1fr] h-screen">
-            <div><Slidebar /></div>
-            <div><ChatList onSelect={(id, name) => {
-                setSelectedChatId(id)
-                setSelectedChatName(name)
 
-            }} onSelectUser={(id, name) => {
-                handleSearchUser(id, name)
-            }} /></div>
-            {selectedChatId ? <ChatWindow chatId={selectedChatId}
-                onClose={() => setSelectedChatId(null)}
-                chatName={selectedChatName ?? ''} /> : <div
-                    className="h-full flex flex-col justify-center items-center gap-3 bg-gray-100 
-            dark:bg-gray-900 text-gray-400 dark:text-gray-500">
-                <MessageCircle size={48} strokeWidth={1} />
-                <p className="text-lg">Select a chat to start messaging</p>
-            </div>}
+    return (
+        <div className="md:grid md:grid-cols-[80px_320px_1fr] h-screen">
+            <div ><Slidebar /></div>
+            <div className={`${selectedChatId ? 'hidden md:block' : 'block'} h-full `}>
+                <ChatList onSelect={(id, name) => {
+                    setSelectedChatId(id)
+                    setSelectedChatName(name)
+                }} onSelectUser={(id, name) => {
+                    handleSearchUser(id, name)
+                }} />
+            </div>
+            {selectedChatId ? (
+                <ChatWindow
+                    chatId={selectedChatId}
+                    onClose={() => setSelectedChatId(null)}
+                    chatName={selectedChatName ?? ''}
+                />
+            ) : (
+                <div className="hidden md:flex h-full flex-col justify-center items-center gap-3 bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-500">
+                    <MessageCircle size={48} strokeWidth={1} />
+                    <p className="text-lg">Select a chat to start messaging</p>
+                </div>
+            )}
             {isModalState && (
                 <SearchUserModal
                     onClose={() => setIsModalState(false)}
